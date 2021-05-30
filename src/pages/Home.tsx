@@ -27,18 +27,11 @@ export function Home() {
 
   function handleMarkTaskAsDone(id: number) {
       if(id){
-
-          let taskfilter = tasks.filter(function (e) {
-              return e.id === id;
-          });
-
-          const newData = {
-              id: taskfilter[0].id,
-              title: taskfilter[0].title,
-              done: !taskfilter[0].done,
-          }
-
-          setTasks(oldState => [...oldState, newData])
+          const taskChanged = tasks.filter(task => task.id === id).map(doneStatus => {
+              doneStatus.done = !doneStatus.done;
+              return doneStatus
+          })
+          setTasks(oldTasks => oldTasks.filter(task => [task.id !== id, taskChanged]))
       }
   }
 
