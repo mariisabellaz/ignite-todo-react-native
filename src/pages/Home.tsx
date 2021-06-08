@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-import {View, Button} from "react-native";
+import React, { useState, useEffect } from 'react';
+import {View, useColorScheme} from "react-native";
 
 import { Header } from '../components/Header';
 import { MyTasksList } from '../components/MyTasksList';
@@ -14,6 +14,8 @@ interface Task {
 export function Home() {
   const [tasks, setTasks] = useState<Task[]>([]);
   const [isDarkMode, setIsDarkMode] = useState(true);
+
+  const colorScheme = useColorScheme();
 
   function handleAddTask(newTaskTitle: string) {
     if(newTaskTitle){
@@ -41,19 +43,18 @@ export function Home() {
       setTasks(oldState => oldState.filter(task => task.id !== id));
   }
 
-  function handleDarkMode() {
-      setIsDarkMode(!isDarkMode);
-  }
+  useEffect(() => {
+      if(colorScheme === 'light'){
+          setIsDarkMode(false);
+      } else {
+          setIsDarkMode(true);
+      }
+  }, []);
 
   return (
     <View style={{ flex: 1, backgroundColor: isDarkMode ? '#10101E' : '#FFF'}}>
       <Header isDarkMode={isDarkMode}/>
       <Input isDarkMode={isDarkMode} addTask={handleAddTask} />
-      <Button
-          title={isDarkMode ? 'Remover dark mode' : 'Adicionar dark mode'}
-          color="#f194ff"
-          onPress={handleDarkMode}
-      />
       <MyTasksList
         tasks={tasks}
         onPress={handleMarkTaskAsDone}
