@@ -1,10 +1,14 @@
 import React from 'react';
 import { View, Text, StyleSheet, SafeAreaView } from 'react-native';
 
-export function Header() {
+interface Props {
+  isDarkMode: boolean;
+}
+
+export function Header({ isDarkMode } : Props) {
   return (
-    <SafeAreaView style={styles.container}>
-      <View style={styles.header}>
+    <SafeAreaView style={{ backgroundColor: isDarkMode ? '#191932' : '#273FAD' }}>
+      <View style={[styles.header, { backgroundColor: isDarkMode ? '#191932' : '#273FAD' }]}>
         <Text style={styles.headerText}>to.</Text>
         <Text style={[styles.headerText, { fontFamily: 'Poppins-SemiBold' }]}>do</Text>
       </View>
@@ -13,9 +17,6 @@ export function Header() {
 }
 
 const styles = StyleSheet.create({
-  container: {
-    backgroundColor: '#273FAD',
-  },
   header: {
     paddingBottom: 44,
     backgroundColor: '#273FAD',
